@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheeky WebSocket SIP Client</title>
+    <script src="js/libs/jssip-3.10.0.js"></script>
+    <style>
+        body {
+            background-color: #00FF00; /* Neon green background  #71d1c4 */
+            color: #FF00FF; /* Bright pink text */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            padding: 20px;
+            cursor: url('public/cursor.png'), auto;
+        }
+
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+        }
+
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        a:link, a:visited {
+            color: blue; /* Classic blue links */
+            text-decoration: underline;
+        }
+
+        h1, h3 {
+            color: #FF00FF; /* Bright pink headings */
+        }
+
+        img {
+            width: 100px; /* Set size for the image */
+            cursor: pointer; /* Show a pointer cursor on hover */
+            transition: transform 0.3s ease; /* Smooth transition on image change */
+        }
+
+        img:hover {
+            transform: scale(1.1); /* Slight zoom effect on hover */
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #0000FF; /* Bold blue for buttons */
+            color: #FFFFFF; /* White text */
+            border: 2px solid #FF00FF; /* Bright pink border */
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #000080; /* Darker blue on hover */
+        }
+
+        button:disabled {
+            background-color: #808080; /* Gray background for disabled buttons */
+            cursor: not-allowed;
+        }
+
+        .hangup-button {
+            background-color: #FF0000; /* Bright red for hangup */
+            color: #FFFFFF; /* White text */
+        }
+
+        .hangup-button:hover {
+            background-color: #CC0000; /* Darker red on hover */
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #FFFFFF; /* White background for the form container */
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #status {
+            font-weight: bold;
+            margin-top: 20px;
+            color: #FF00FF; /* Bright pink status text */
+        }
+    </style>
+</head>
+<body>
+    <img src="public/Cheeky1.png" alt="Transparent PNG Image" style="width:400px;">
+    <h1>WebSocket SIP Client</h1>
+
+    <marquee behavior="scroll" direction="left">Welcome to CHEEKY CLIENT, it's better than it looks!! </marquee>
+    <audio autoplay>
+        <source src="public/rockintro.mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+    <!-- SIP Registration Details -->
+    <div>
+        <h3>Registration Details</h3>
+        <input type="text" id="ws-url" value="ws://1.2.3.4:7443" placeholder="WebSocket URL (e.g., ws://sip.domain.com:5066)" /><br>
+        <input type="text" id="sip-username" value="testuser1@sip.voip.dev" placeholder="SIP Username (e.g., sip:user@domain)" /><br>
+        <input type="password" id="sip-password" value="password1" placeholder="SIP Password" /><br>
+        <input type="text" id="sip-domain" value="sip.voip.dev" placeholder="SIP Domain (e.g., domain.com)" /><br>
+        <button onclick="RegClick()">Register</button>
+    </div>
+
+    <!-- Display Status -->
+    <div>
+        <p id="status">Status: Not connected</p>
+    </div>
+    <img id="toggle-image" src="public/G-reg.png" alt="Toggle Background" onclick="toggleBackgroundAndImage()" />
+    <!-- Call Section -->
+    <div>
+        <h3>Call</h3>
+        <span class="blink">MAKE A CALL HERE!!</span><br>
+        <input type="text" id="destination" placeholder="SIP URI (e.g., sip:destination@domain)" /><br>
+        <br>
+        <button onclick="CallClick()">Start Call</button><br>
+        <br>
+        <button onclick="hangupCall()">Hang Up</button> 
+    </div>
+
+
+
+    <audio id="riff1">
+        <source src="public/rockriff2.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="riff2">
+        <source src="public/rockriff3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="js/app.js"></script>
+    <script>
+        function playAudio(audio_file) {
+            const audio = document.getElementById(''+ audio_file +'');
+            audio.play();
+        }
+
+        function RegClick() {
+            //playAudio(riff1);  // Call the first action
+            registerSIP();  // Call the second action
+        }
+
+        function CallClick() {
+            //playAudio(riff2);  // Call the first action
+            startCall();  // Call the second action
+        }
+
+        function toggleBackgroundAndImage() {
+            // Get the current body element and image element
+            const body = document.body;
+            const image = document.getElementById('toggle-image');
+
+            // Toggle background color
+            if (body.style.backgroundColor === 'rgb(0, 255, 0)') { // If it's neon green
+                body.style.backgroundColor = '#71d1c4'; // Change to bold blue
+                image.src = 'public/G-cool.png'; // Change to the second image
+            } else {
+                body.style.backgroundColor = '#00FF00'; // Change back to neon green
+                image.src = 'public/G-reg.png'; // Change back to the first image
+            }
+        }
+    </script>
+</body>
+
+</html>
